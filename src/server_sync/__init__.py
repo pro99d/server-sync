@@ -115,7 +115,6 @@ class Client:
             "data": data
         }
         sock = self._send_request(request)
-        # For update, we don't need to receive a response, just close the socket
         sock.close()
 
     def get(self):
@@ -132,13 +131,6 @@ class Client:
             "data": None
         }
         sock = self._send_request(request)
-        # For clear, we don't need to receive a response, just close the socket
         sock.close()
 
-
-def main():
-    print("Hello from server-sync!")
-
-
-if __name__ == "__main__":
-    main()
+__all__ = ['Server', 'Client']

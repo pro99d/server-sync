@@ -1,7 +1,17 @@
 [project]
-name = "server-sync"
+name = "server_sync"
 version = "0.1.0"
-description = "Add your description here"
+description = "A simple server-client synchronization library using TCP/UDP"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.10"
 dependencies = []
+
+[project.scripts]
+server-sync = "server_sync:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
