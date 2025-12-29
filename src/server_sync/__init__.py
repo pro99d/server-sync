@@ -17,7 +17,7 @@ class Server:
 
         self.socket.bind((self.hostname, self.port))
         self.data = {}
-        self.uuid = uuid.uuid4()
+        self.uuid = uuid.uuid4().hex
 
     def get_data(self, conn):
         if self.type == "tcp":
@@ -87,9 +87,9 @@ class Client:
     def _send_request(self, request):
         sock = self._create_socket()
         try:
+            request_data = json.dumps(request).encode('utf-8')
             if self.type == "tcp":
                 sock.connect((self.host, self.port))
-            request_data = json.dumps(request).encode('utf-8')
             if self.type == "tcp":
                 length = len(request_data)
                 sock.sendall(length.to_bytes(4, byteorder='big') + request_data)
@@ -129,10 +129,10 @@ class Client:
         sock = self._send_request(request)
         return self._receive_response(sock)
 
-    def clear(self):
+    def clear(self, uuid: str):
         request = {
             "type": "clear",
-            "data": None
+            "uuid": uuid
         }
         sock = self._send_request(request)
         sock.close()
