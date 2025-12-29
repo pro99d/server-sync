@@ -1,5 +1,6 @@
 import socket
 import json
+import uuid
 
 class Server:
     def __init__(self, port: int, type: str= "tcp"):
@@ -16,6 +17,8 @@ class Server:
 
         self.socket.bind((self.hostname, self.port))
         self.data = {}
+        self.uuid = uuid.uuid4()
+
     def get_data(self, conn):
         if self.type == "tcp":
             length_bytes = conn.recv(4)
@@ -52,7 +55,8 @@ class Server:
                 elif request_type == "get":
                     self.send_data(self.data, conn)
                 elif request_type == "clear":
-                    self.data.clear()
+                    if data['uuid'] == self.uuid:
+                        self.data.clear()
             finally:
                 conn.close()
         elif self.type == "udp":
